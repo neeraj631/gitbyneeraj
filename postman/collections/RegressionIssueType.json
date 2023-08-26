@@ -1,0 +1,751 @@
+{
+	"info": {
+		"_postman_id": "2d0492f2-ffed-4b5f-aac8-f698a0788df7",
+		"name": "RegressionIssueType",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "5535742-2d0492f2-ffed-4b5f-aac8-f698a0788df7"
+	},
+	"item": [
+		{
+			"name": "CreateIssueTypeBug",
+			"item": [
+				{
+					"name": "GetProjectsPaginatedAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (responseCode.code===200) {\r",
+									"    var data =JSON.parse(responseBody);\r",
+									"    var ProjectIDNum = data.values[0].id\r",
+									"    var ProjectKeyNum = data.values[0].key\r",
+									"    pm.environment.set(\"ProjectID\",ProjectIDNum );  \r",
+									"    pm.environment.set(\"ProjectKey\",ProjectKeyNum );  \r",
+									"}\r",
+									"\r",
+									"pm.test(\"Issue Type Check\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.values[0].key).to.eql(\"BUG\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "48476091-6019-43cd-8bd1-a5073d24ca7c"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"variable_key\");"
+								],
+								"type": "text/javascript",
+								"id": "e017e380-6bdd-473a-84a1-96eb1b7ad4f1"
+							}
+						}
+					],
+					"id": "5d51a78b-f0bd-48ed-b492-24fd355a3f40",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "neerajkumarv661@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/rest/api/3/project/search",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"project",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetissuetypeByProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*bodyData = JSON.parse(responseBody)\r",
+									"value = bodyData[4].id;\r",
+									"console.log(value);\r",
+									"pm.environment.set(\"IssueTypeBug\", value);*/\r",
+									"\r",
+									"\r",
+									"if (responseCode.code===200) {\r",
+									"    var data =JSON.parse(responseBody);\r",
+									"    pm.environment.set(\"IssueTypeBug\", data[4].id);    \r",
+									"}"
+								],
+								"type": "text/javascript",
+								"id": "912578fd-e9f3-4be7-9d39-4d983e31bac3"
+							}
+						}
+					],
+					"id": "bbd890f0-73e2-4409-a251-ce3e93c6c5fc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/rest/api/3/issuetype/project?projectId={{ProjectID}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issuetype",
+								"project"
+							],
+							"query": [
+								{
+									"key": "projectId",
+									"value": "{{ProjectID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetuserassignableToaProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    pm.test(\"Setting up accountID for User\", function () {\r",
+									"        var jsonData = pm.response.json();\r",
+									"       // pm.expect(jsonData.value).to.eql(100);\r",
+									"        pm.environment.set(\"accountID\", jsonData[0].accountId);\r",
+									"    });\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "2973e67e-7a5d-4536-a67f-39423324e8e3"
+							}
+						}
+					],
+					"id": "6751c561-2d4e-449d-afd6-fa2ce80ec1c4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/rest/api/3/user/assignable/multiProjectSearch?projectKeys={{ProjectKey}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"user",
+								"assignable",
+								"multiProjectSearch"
+							],
+							"query": [
+								{
+									"key": "projectKeys",
+									"value": "{{ProjectKey}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateIssueTypeBug",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"CreateIssueTest\"] = responseCode.code === 201;\r",
+									"\r",
+									"\r",
+									"if (responseCode.code===201) {\r",
+									"    var data =JSON.parse(responseBody);\r",
+									"    var BugKey = data.key \r",
+									"    pm.environment.set(\"BugKey\",BugKey );  \r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "257bb0ea-6db0-45ac-914c-e92148013c4e"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"id": "59cb45a5-b2d5-44ac-9153-bb40f532d675"
+							}
+						}
+					],
+					"id": "a18aeafb-8f63-49cf-803e-e6318c29138a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fields\": {\r\n  \r\n        \"issuetype\": {\r\n            \"id\": \"{{IssueTypeBug}}\"\r\n        },  \r\n        \"project\": {\r\n            \"id\": \"{{ProjectID}}\"\r\n        },\r\n        \"reporter\": {\r\n            \"id\": \"{{accountID}}\"\r\n        },\r\n        \"summary\": \"Creating First Bus from Postma API\",\r\n        \"timetracking\": {\r\n            \"originalEstimate\": \"10\",\r\n            \"remainingEstimate\": \"5\"\r\n        }\r\n    }\r\n\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/rest/api/3/issue",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetIssue",
+					"id": "c12781ac-afc8-48a0-864d-f706164258a7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/rest/api/3/issue/{{BugKey}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue",
+								"{{BugKey}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "13cbe78f-5504-41b5-a9ab-aff8f8d978a8"
+		},
+		{
+			"name": "CreateIssyeTypeImprovement",
+			"item": [
+				{
+					"name": "GetProjectsPaginatedAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (responseCode.code===200) {\r",
+									"    var data =JSON.parse(responseBody);\r",
+									"    var ProjectIDNum = data.values[0].id\r",
+									"    var ProjectKeyNum = data.values[0].key\r",
+									"    pm.environment.set(\"ProjectID\",ProjectIDNum );  \r",
+									"    pm.environment.set(\"ProjectKey\",ProjectKeyNum );  \r",
+									"}\r",
+									"\r",
+									"pm.test(\"Issue Type Check\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.values[0].key).to.eql(\"BUG\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "df446108-9b0e-4245-a35e-43d2bc67b7a6"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"variable_key\");"
+								],
+								"type": "text/javascript",
+								"id": "fe4b4050-587b-457c-a0df-ee8bc6b8c08e"
+							}
+						}
+					],
+					"id": "c2beb555-2376-4896-a3e4-ed90fd6872d8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "neerajkumarv661@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/rest/api/3/project/search",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"project",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetissuetypeByProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*bodyData = JSON.parse(responseBody)\r",
+									"value = bodyData[4].id;\r",
+									"console.log(value);\r",
+									"pm.environment.set(\"IssueTypeBug\", value);*/\r",
+									"\r",
+									"\r",
+									"if (responseCode.code===200) {\r",
+									"    var data =JSON.parse(responseBody);\r",
+									"    pm.environment.set(\"IssueTypeImprovemet\", data[0].id);    \r",
+									"}"
+								],
+								"type": "text/javascript",
+								"id": "1eb2f444-5149-43d2-9244-95928038e27c"
+							}
+						}
+					],
+					"id": "e5073892-4437-42f8-bea2-30cb2bad3263",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/rest/api/3/issuetype/project?projectId={{ProjectID}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issuetype",
+								"project"
+							],
+							"query": [
+								{
+									"key": "projectId",
+									"value": "{{ProjectID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetuserassignableToaProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    pm.test(\"Setting up accountID for User\", function () {\r",
+									"        var jsonData = pm.response.json();\r",
+									"       // pm.expect(jsonData.value).to.eql(100);\r",
+									"        pm.environment.set(\"accountID\", jsonData[0].accountId);\r",
+									"    });\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "58c5ba0f-6938-4252-af26-cd6d98a97fc7"
+							}
+						}
+					],
+					"id": "20064f43-b637-4109-8059-de196e42ce8a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/rest/api/3/user/assignable/multiProjectSearch?projectKeys={{ProjectKey}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"user",
+								"assignable",
+								"multiProjectSearch"
+							],
+							"query": [
+								{
+									"key": "projectKeys",
+									"value": "{{ProjectKey}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateIssueTypeimprovement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"CreateIssueImprovementTest\"] = responseCode.code === 201;\r",
+									"\r",
+									"//var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"CreateIssueImprovementTest\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    //pm.expect(jsonData.value).to.eql(100);\r",
+									"    pm.environment.set(\"issueImprovementID\", jsonData.id);\r",
+									"    let getissueImprovementID = pm.environment.get('issueImprovementID');\r",
+									"    console.log(\"The Issue IF for Improvement is  \" + getissueImprovementID);    \r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "3bc19861-5209-4149-9ba7-78f451c1beda"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.clear \r",
+									"\r",
+									" pm.environment.set('summary','Creating Issue Type Improvement from Postman');\r",
+									"\r",
+									" let getSummary = pm.environment.get('summary');\r",
+									"\r",
+									"console.log(getSummary)"
+								],
+								"type": "text/javascript",
+								"id": "2d34584d-4668-425d-ac96-394db918d8fb"
+							}
+						}
+					],
+					"id": "e3d60735-fb85-4f79-93ab-88ecca9e8be4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fields\": {\r\n  \r\n        \"issuetype\": {\r\n            \"id\": \"{{IssueTypeBug}}\"\r\n        },  \r\n        \"project\": {\r\n            \"id\": \"{{ProjectID}}\"\r\n        },\r\n        \"reporter\": {\r\n            \"id\": \"{{accountID}}\"\r\n        },\r\n        \"summary\": \"{{summary}}\",\r\n        \"timetracking\": {\r\n            \"originalEstimate\": \"10\",\r\n            \"remainingEstimate\": \"5\"\r\n        }\r\n    }\r\n\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/rest/api/3/issue",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetIssue",
+					"id": "9eb2aa40-f499-4960-93bb-2328e9f47fc7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/rest/api/3/issue/BUG-5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue",
+								"BUG-5"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "82a0c49f-7d65-438f-98ca-787305b05ba0"
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{access_token}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "8cdd6d2a-9460-4e28-a6ae-06d0db31fcea"
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "16c8a0fb-e54a-4ec4-acfd-0ad666d815be"
+			}
+		}
+	]
+}
