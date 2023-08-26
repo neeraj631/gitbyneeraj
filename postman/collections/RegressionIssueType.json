@@ -389,6 +389,46 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetIssue Copy 2",
+					"id": "08335bd3-6ec9-4e8c-9a10-296ec2c1926f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/rest/api/3/issue/{{BugKey}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue",
+								"{{BugKey}}"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"id": "13cbe78f-5504-41b5-a9ab-aff8f8d978a8"
